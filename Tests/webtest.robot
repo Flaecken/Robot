@@ -1,25 +1,30 @@
 *** Settings ***
 Documentation               This is some basic info
+Resource                    ../Resources/keywords.robot
 Library                     SeleniumLibrary
+Suite Setup                  Begin web test
+Suite Teardown               End web test
 
-*** Keywords ***
-Begin web test
-    Open browser                about:blank     chrome
-Go to web page
-    Go to                       https://www.willys.se/
-    wait until page contains    Handla billig mat online
-Search for product
-    input text                  id=selenium--search-items-input   kiwi
-    press keys                  xpath://*[@id="selenium--search-items-input"]   RETURN
-    wait until page contains    Sökord: kiwi
-End web test
-    close browser
+*** Variables ***
+${BROWSER}              chrome
+${URL}                  https://www.willys.se/
 
 *** Test Cases ***
-User can access website and search for product
+User can access website
     [Documentation]             Willys
     [Tags]                      Test 1
-    Begin web test
     Go to web page
-    Search for product
-    End web test
+
+User can search for a product
+    [Documentation]             Willys search for product
+    [Tags]                      Test 2
+    Go to web page
+    Search for product          kiwi        kiwi
+
+User can search for another product
+    [Documentation]             Willys search for different product
+    [Tags]                      Test 3
+    Go to web page
+    Search for product          hundgodis   hundgodis
+
+
